@@ -65,6 +65,9 @@ jobs:
         working-directory: android
         run: ./gradlew assembleRelease --no-daemon
 
+      - name: Verify release signing (fail if debug-signed)
+        run: bash scripts/verify-release-signing.sh
+
       - name: Build release AAB
         working-directory: android
         run: ./gradlew bundleRelease --no-daemon

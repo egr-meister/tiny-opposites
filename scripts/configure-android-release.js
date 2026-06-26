@@ -58,14 +58,26 @@ if (gradle.indexOf("signingConfigs.release") === -1) {
     releaseSigningBlock +
     gradle.slice(insertAt);
 
-  // Point the release buildType at the new release signing config.
+  // Point the RELEASE buildType at the new release signing config.
+  // The regex is anchored on `buildTypes { ... release {` so it targets the
+  // release build type specifically and never the injected signingConfigs
+  // release block or the debug build type. This guarantees the release APK/AAB
+  // is signed with the real release keystore (not the debug key), which is
+  // what Google Play requires.
+  const before = gradle;
   gradle = gradle.replace(
-    /(release\s*\{[\s\S]*?signingConfig\s+signingConfigs\.)debug/,
+    /(buildTypes\s*\{[\s\S]*?release\s*\{[\s\S]*?signingConfig\s+signingConfigs\.)debug/,
     "$1release"
   );
+  if (gradle === before) {
+    fail(
+      "Could not repoint the release buildType to signingConfigs.release. " +
+        "Aborting so the build does not ship debug-signed."
+    );
+  }
 
   fs.writeFileSync(gradlePath, gradle, "utf8");
-  console.log("[configure-android-release] Release signing config injected.");
+  console.log("[configure-android-release] Release signing config injected and release buildType repointed.");
 } else {
   console.log("[configure-android-release] Release signing config already present.");
 }
