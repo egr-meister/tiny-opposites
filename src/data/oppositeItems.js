@@ -1,5 +1,7 @@
 // Opposite word pairs grouped by topic.
 // Each item is a calm, child-friendly opposite pair with a short sentence.
+// Every "firstWord" is unique across the whole set so prompts are never
+// ambiguous ("Find the opposite of <firstWord>").
 export const OPPOSITE_ITEMS = [
   // ----- Size -----
   {
@@ -28,6 +30,33 @@ export const OPPOSITE_ITEMS = [
     firstEmoji: "🐍",
     oppositeEmoji: "🐛",
     sentence: "A snake is long. A worm is short.",
+  },
+  {
+    id: "size_heavy_light",
+    topicId: "size",
+    firstWord: "Heavy",
+    oppositeWord: "Light",
+    firstEmoji: "🪨",
+    oppositeEmoji: "🪶",
+    sentence: "A rock is heavy. A feather is light.",
+  },
+  {
+    id: "size_thick_thin",
+    topicId: "size",
+    firstWord: "Thick",
+    oppositeWord: "Thin",
+    firstEmoji: "📚",
+    oppositeEmoji: "📄",
+    sentence: "A big book is thick. A page is thin.",
+  },
+  {
+    id: "size_wide_narrow",
+    topicId: "size",
+    firstWord: "Wide",
+    oppositeWord: "Narrow",
+    firstEmoji: "🚌",
+    oppositeEmoji: "🚲",
+    sentence: "A bus is wide. A bike is narrow.",
   },
 
   // ----- Weather -----
@@ -58,6 +87,33 @@ export const OPPOSITE_ITEMS = [
     oppositeEmoji: "🌧️",
     sentence: "A sunny day is bright. A rainy day is wet.",
   },
+  {
+    id: "weather_windy_still",
+    topicId: "weather",
+    firstWord: "Windy",
+    oppositeWord: "Still",
+    firstEmoji: "🌬️",
+    oppositeEmoji: "🍃",
+    sentence: "A windy day moves the trees. A still day is quiet.",
+  },
+  {
+    id: "weather_cloudy_clear",
+    topicId: "weather",
+    firstWord: "Cloudy",
+    oppositeWord: "Clear",
+    firstEmoji: "☁️",
+    oppositeEmoji: "🌈",
+    sentence: "A cloudy sky is grey. A clear sky is bright.",
+  },
+  {
+    id: "weather_icy_warm",
+    topicId: "weather",
+    firstWord: "Icy",
+    oppositeWord: "Warm",
+    firstEmoji: "🧊",
+    oppositeEmoji: "🌞",
+    sentence: "Ice is icy and cold. Sunshine feels warm.",
+  },
 
   // ----- Emotions -----
   {
@@ -86,6 +142,33 @@ export const OPPOSITE_ITEMS = [
     firstEmoji: "😴",
     oppositeEmoji: "🙂",
     sentence: "Tired wants to sleep. Awake is ready to play.",
+  },
+  {
+    id: "emotions_brave_scared",
+    topicId: "emotions",
+    firstWord: "Brave",
+    oppositeWord: "Scared",
+    firstEmoji: "🦁",
+    oppositeEmoji: "🙀",
+    sentence: "A lion feels brave. A kitten can feel scared.",
+  },
+  {
+    id: "emotions_excited_bored",
+    topicId: "emotions",
+    firstWord: "Excited",
+    oppositeWord: "Bored",
+    firstEmoji: "🤩",
+    oppositeEmoji: "😑",
+    sentence: "A party feels exciting. Waiting can feel boring.",
+  },
+  {
+    id: "emotions_proud_shy",
+    topicId: "emotions",
+    firstWord: "Proud",
+    oppositeWord: "Shy",
+    firstEmoji: "😎",
+    oppositeEmoji: "🙈",
+    sentence: "Proud stands tall. Shy likes to hide.",
   },
 
   // ----- Objects -----
@@ -116,6 +199,33 @@ export const OPPOSITE_ITEMS = [
     oppositeEmoji: "🧦",
     sentence: "Clean hands are fresh. Dirty hands need a wash.",
   },
+  {
+    id: "objects_hard_soft",
+    topicId: "objects",
+    firstWord: "Hard",
+    oppositeWord: "Soft",
+    firstEmoji: "🧱",
+    oppositeEmoji: "🧸",
+    sentence: "A brick is hard. A teddy is soft.",
+  },
+  {
+    id: "objects_new_old",
+    topicId: "objects",
+    firstWord: "New",
+    oppositeWord: "Old",
+    firstEmoji: "✨",
+    oppositeEmoji: "🧺",
+    sentence: "A new toy shines. An old toy is worn.",
+  },
+  {
+    id: "objects_on_off",
+    topicId: "objects",
+    firstWord: "On",
+    oppositeWord: "Off",
+    firstEmoji: "💡",
+    oppositeEmoji: "⚫",
+    sentence: "A lamp can be on. A lamp can be off.",
+  },
 
   // ----- Time -----
   {
@@ -144,6 +254,33 @@ export const OPPOSITE_ITEMS = [
     firstEmoji: "🐓",
     oppositeEmoji: "🦉",
     sentence: "The rooster wakes early. The owl stays up late.",
+  },
+  {
+    id: "time_first_last",
+    topicId: "time",
+    firstWord: "First",
+    oppositeWord: "Last",
+    firstEmoji: "🥇",
+    oppositeEmoji: "🏁",
+    sentence: "The leader is first. The end is last.",
+  },
+  {
+    id: "time_fast_slow",
+    topicId: "time",
+    firstWord: "Fast",
+    oppositeWord: "Slow",
+    firstEmoji: "🐇",
+    oppositeEmoji: "🐢",
+    sentence: "A rabbit is fast. A turtle is slow.",
+  },
+  {
+    id: "time_now_later",
+    topicId: "time",
+    firstWord: "Now",
+    oppositeWord: "Later",
+    firstEmoji: "⏰",
+    oppositeEmoji: "🗓️",
+    sentence: "Now is this moment. Later comes after.",
   },
 ];
 

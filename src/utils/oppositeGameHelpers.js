@@ -63,16 +63,29 @@ function pickRandom(list) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
+// Picks a target item, avoiding the previous one when possible so the same
+// prompt does not appear twice in a row. Safe with empty/short pools.
+function pickTarget(pool, avoidItemId) {
+  if (!Array.isArray(pool) || pool.length === 0) return undefined;
+  if (avoidItemId && pool.length > 1) {
+    const filtered = pool.filter((item) => item.id !== avoidItemId);
+    if (filtered.length > 0) {
+      return pickRandom(filtered);
+    }
+  }
+  return pickRandom(pool);
+}
+
 // ---------------------------------------------------------------------------
 // Find the Opposite
 // ---------------------------------------------------------------------------
-export function buildFindOppositeQuestion(topicId, difficulty) {
+export function buildFindOppositeQuestion(topicId, difficulty, avoidItemId) {
   const safeDifficulty = difficulty || "easy";
   const choiceCount = getChoiceCountForDifficulty(safeDifficulty);
 
   // Pool the target is drawn from (topic only for easy/medium).
   const targetPool = getOppositeItemsByTopic(topicId);
-  const target = pickRandom(targetPool) || OPPOSITE_ITEMS[0];
+  const target = pickTarget(targetPool, avoidItemId) || OPPOSITE_ITEMS[0];
 
   const correctChoice = {
     id: target.id + "_opposite",
@@ -132,6 +145,7 @@ export function buildFindOppositeQuestion(topicId, difficulty) {
   return {
     id: randomId(),
     topicId: target.topicId,
+    targetItemId: target.id,
     gameMode: GAME_MODES.FIND_OPPOSITE,
     difficulty: safeDifficulty,
     prompt: "Find the opposite of " + target.firstWord + ".",
@@ -144,12 +158,12 @@ export function buildFindOppositeQuestion(topicId, difficulty) {
 // ---------------------------------------------------------------------------
 // Choose the Correct Pair
 // ---------------------------------------------------------------------------
-export function buildCorrectPairQuestion(topicId, difficulty) {
+export function buildCorrectPairQuestion(topicId, difficulty, avoidItemId) {
   const safeDifficulty = difficulty || "easy";
   const choiceCount = getChoiceCountForDifficulty(safeDifficulty);
 
   const targetPool = getOppositeItemsByTopic(topicId);
-  const target = pickRandom(targetPool) || OPPOSITE_ITEMS[0];
+  const target = pickTarget(targetPool, avoidItemId) || OPPOSITE_ITEMS[0];
 
   // Set of all valid pair labels (both orders) so distractors are never a
   // real opposite pair, keeping questions unambiguous.
@@ -229,6 +243,7 @@ export function buildCorrectPairQuestion(topicId, difficulty) {
   return {
     id: randomId(),
     topicId: target.topicId,
+    targetItemId: target.id,
     gameMode: GAME_MODES.CORRECT_PAIR,
     difficulty: safeDifficulty,
     prompt: "Which pair belongs together?",
@@ -239,7 +254,9 @@ export function buildCorrectPairQuestion(topicId, difficulty) {
 }
 
 // Routes to the right builder. Always returns a valid question object.
-export function buildOppositeQuestion(topicId, gameMode, difficulty) {
+// `avoidItemId` (optional) lets the caller prevent the same prompt from
+// appearing twice in a row.
+export function buildOppositeQuestion(topicId, gameMode, difficulty, avoidItemId) {
   const safeTopic = topicId || "size";
   const safeMode =
     gameMode === GAME_MODES.CORRECT_PAIR
@@ -248,7 +265,7 @@ export function buildOppositeQuestion(topicId, gameMode, difficulty) {
   const safeDifficulty = difficulty || "easy";
 
   if (safeMode === GAME_MODES.CORRECT_PAIR) {
-    return buildCorrectPairQuestion(safeTopic, safeDifficulty);
+    return buildCorrectPairQuestion(safeTopic, safeDifficulty, avoidItemId);
   }
-  return buildFindOppositeQuestion(safeTopic, safeDifficulty);
+  return buildFindOppositeQuestion(safeTopic, safeDifficulty, avoidItemId);
 }

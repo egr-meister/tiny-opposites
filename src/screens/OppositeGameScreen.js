@@ -40,6 +40,8 @@ export default function OppositeGameScreen({ navigation, route }) {
     answerAnimationEnabled: true,
   });
   const encouragementRef = useRef(pickEncouragement());
+  // Remembers the previous prompt so the next question is not a repeat.
+  const lastTargetIdRef = useRef(null);
 
   const topic = getTopicItem(topicId);
   const isEasy = difficulty === "easy";
@@ -65,7 +67,13 @@ export default function OppositeGameScreen({ navigation, route }) {
   }, []);
 
   function makeNextQuestion() {
-    const q = buildOppositeQuestion(topicId, gameMode, difficulty);
+    const q = buildOppositeQuestion(
+      topicId,
+      gameMode,
+      difficulty,
+      lastTargetIdRef.current
+    );
+    lastTargetIdRef.current = q?.targetItemId ?? null;
     setQuestion(q);
     setSelectedId(null);
     setAnswered(false);
